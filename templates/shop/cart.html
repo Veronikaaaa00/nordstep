@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Корзина — NordStep{% endblock %}
+{% block content %}
+<h1>Корзина</h1>
+{% if items %}
+<table class="table">
+  <thead><tr><th>Модель</th><th>Кол-во</th><th>Сумма</th></tr></thead>
+  <tbody>
+  {% for row in items %}
+    <tr>
+      <td>{{ row.product.name }}</td>
+      <td>{{ row.quantity }}</td>
+      <td>{{ row.line_total }} ₽</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+<p class="price">Итого: {{ total }} ₽</p>
+
+{% if user.is_authenticated %}
+<form method="post" action="{% url 'checkout' %}">
+  {% csrf_token %}
+  {{ form.comment }}
+  <button class="btn" type="submit">Оформить заказ</button>
+</form>
+{% else %}
+<p>Чтобы оформить заказ, <a href="{% url 'login' %}">войдите</a> в аккаунт.</p>
+{% endif %}
+{% else %}
+<p>Корзина пуста. Загляните в <a href="{% url 'product_list' %}">каталог</a>.</p>
+{% endif %}
+{% endblock %}

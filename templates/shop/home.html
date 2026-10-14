@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}NordStep — обувь для города{% endblock %}
+{% block content %}
+<section class="hero">
+  <p class="eyebrow">Новая коллекция сезона</p>
+  <h1>NordStep</h1>
+  <p>Кроссовки, ботинки и туфли с удобной посадкой. Подберите пару под свой ритм.</p>
+  <a class="btn" href="{% url 'product_list' %}">Смотреть каталог</a>
+</section>
+
+<section class="stats">
+  <div><b>{{ stats.products }}</b><span>моделей в наличии</span></div>
+  <div><b>{{ stats.categories }}</b><span>категорий обуви</span></div>
+  <div><b>{{ stats.orders }}</b><span>оформленных заказов</span></div>
+</section>
+
+<h2>Популярное сейчас</h2>
+<div class="grid">
+  {% for p in products %}
+  <article class="card">
+    <h3><a href="{% url 'product_detail' p.pk %}">{{ p.name }}</a></h3>
+    <p class="muted">{{ p.category.name }} · размер {{ p.size }}</p>
+    <p class="price">{{ p.price }} ₽</p>
+    <a class="btn small" href="{% url 'add_to_cart' p.pk %}">В корзину</a>
+  </article>
+  {% empty %}
+  <p>Каталог пока пуст.</p>
+  {% endfor %}
+</div>
+{% endblock %}

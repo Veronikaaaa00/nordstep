@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Мои заказы — NordStep{% endblock %}
+{% block content %}
+<h1>Мои заказы</h1>
+{% for order in orders %}
+  <article class="card wide">
+    <h3>Заказ #{{ order.id }} — {{ order.get_status_display }}</h3>
+    <p>{{ order.created_at }} · {{ order.total_price }} ₽</p>
+    {% if order.comment %}<p>Комментарий: {{ order.comment }}</p>{% endif %}
+    <ul>
+      {% for item in order.items.all %}
+        <li>{{ item.product.name }} × {{ item.quantity }}</li>
+      {% endfor %}
+    </ul>
+  </article>
+{% empty %}
+  <p>Пока нет заказов.</p>
+{% endfor %}
+{% endblock %}

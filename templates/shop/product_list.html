@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Каталог обуви — NordStep{% endblock %}
+{% block content %}
+<h1>Каталог обуви</h1>
+<form class="filters" method="get">
+  <input type="text" name="q" value="{{ q }}" placeholder="Кроссовки, ботинки, бренд...">
+  <select name="category">
+    <option value="">Все категории</option>
+    {% for c in categories %}
+      <option value="{{ c.id }}" {% if category_id == c.id|stringformat:"s" %}selected{% endif %}>{{ c.name }}</option>
+    {% endfor %}
+  </select>
+  <label><input type="checkbox" name="stock" value="1" {% if stock == "1" %}checked{% endif %}> Только в наличии</label>
+  <button class="btn" type="submit">Найти</button>
+</form>
+
+<div class="grid">
+  {% for p in products %}
+  <article class="card">
+    <h3><a href="{% url 'product_detail' p.pk %}">{{ p.name }}</a></h3>
+    <p class="muted">{{ p.category.name }} · р. {{ p.size }}</p>
+    <p class="price">{{ p.price }} ₽</p>
+    <p>{% if p.in_stock %}В наличии{% else %}Нет в наличии{% endif %}</p>
+    {% if p.in_stock %}
+      <a class="btn small" href="{% url 'add_to_cart' p.pk %}">В корзину</a>
+    {% endif %}
+  </article>
+  {% empty %}
+  <p>Ничего не найдено. Попробуйте другой запрос.</p>
+  {% endfor %}
+</div>
+{% endblock %}

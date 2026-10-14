@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Регистрация — NordStep{% endblock %}
+{% block content %}
+<h1>Создать аккаунт</h1>
+<form method="post" class="form">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button class="btn" type="submit">Зарегистрироваться</button>
+</form>
+{% endblock %}
