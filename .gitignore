@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 db.sqlite3
+.env
 *.log
 .DS_Store
 reports/*.csv

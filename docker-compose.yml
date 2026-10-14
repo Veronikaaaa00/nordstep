@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:16
+    container_name: nordstep-db
+    restart: always
+    environment:
+      POSTGRES_DB: nordstep
+      POSTGRES_USER: nordstep
+      POSTGRES_PASSWORD: nordsteppass
+    ports:
+      - "5432:5432"
+    volumes:
+      - nordstep_pgdata:/var/lib/postgresql/data
+
+volumes:
+  nordstep_pgdata:

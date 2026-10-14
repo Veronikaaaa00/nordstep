@@ -1,9 +1,12 @@
+import os
 from pathlib import Path
+
+from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "django-insecure-loadtest-shop-praktika3-dev-key"
-DEBUG = True
+SECRET_KEY = config("DJANGO_SECRET_KEY", default="django-insecure-nordstep-dev-key")
+DEBUG = config("DEBUG", default=True, cast=bool)
 ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
@@ -48,10 +51,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
+# PostgreSQL — обычная SQL-база (контейнер nordstep-db)
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": config("DB_NAME", default="nordstep"),
+        "USER": config("DB_USER", default="nordstep"),
+        "PASSWORD": config("DB_PASSWORD", default="nordsteppass"),
+        "HOST": config("DB_HOST", default="127.0.0.1"),
+        "PORT": config("DB_PORT", default="5432"),
     }
 }
 
